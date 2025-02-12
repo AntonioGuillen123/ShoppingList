@@ -25,6 +25,12 @@ class ProductController extends Controller
     {
         $validated = $this->validateData($request, 'store');
 
+        $exists = $this->checkIfProductExists($validated['name']);
+
+        if ($exists) {
+            return $this->responseWithError('The product you have entered already exists', 406);
+        }
+
         $product = $this->createProduct($validated);
 
         return $this->responseWithSuccess($product, 201);
@@ -41,10 +47,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
+    public function update(Request $request, int $id) {}
 
     /**
      * Remove the specified resource from storage.
@@ -59,7 +62,13 @@ class ProductController extends Controller
         return Product::all();
     }
 
-    private function createProduct($data){
+    private function checkIfProductExists($name)
+    {
+        return Product::where('name', $name)->first();
+    }
+
+    private function createProduct($data)
+    {
         return Product::create($data)->refresh();
     }
 
