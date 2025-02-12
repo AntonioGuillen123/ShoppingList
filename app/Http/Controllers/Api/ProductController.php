@@ -65,9 +65,17 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(int $id)
     {
-        //
+        $product = $this->getProductById($id);
+
+        if(!$product){
+            return $this->responseWithError('The product id does not exist', 404);
+        }
+
+        $this->deleteProduct($product);
+
+        return $this->responseWithSuccess([], 204);
     }
 
     private function getAllProducts()
@@ -94,6 +102,10 @@ class ProductController extends Controller
         $product->update($data);
 
         return $product->refresh();
+    }
+
+    private function deleteProduct(Product $product){
+        $product->delete();
     }
 
     private function validateData(Request $request, string $option)
