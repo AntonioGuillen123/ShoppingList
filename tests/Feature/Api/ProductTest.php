@@ -118,4 +118,15 @@ class ProductTest extends TestCase
             ->assertStatus(404)
             ->assertJsonFragment($errorData);
     }
+
+    public function test_CheckIfDeleteListInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->deleteJson(route('deleteListAPI'));
+
+        $response
+            ->assertStatus(204);
+
+        $this->assertDatabaseCount('product', 0);
+    }
 }
