@@ -94,4 +94,28 @@ class ProductTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
+    public function test_CheckIfDeleteAnEntryOfProductByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->deleteJson(route('deleteProductAPI', 1));
+
+        $response
+            ->assertStatus(204);
+    }
+
+    public function test_CheckIfDeleteAnEntryOfProductWrongByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->deleteJson(route('deleteProductAPI', -1));
+
+        $errorData = [
+            'message' => 'The product id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($errorData);
+    }
 }
