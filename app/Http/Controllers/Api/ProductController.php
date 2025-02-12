@@ -23,7 +23,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $this->validateData($request, 'store');
+
+        $product = $this->createProduct($validated);
+
+        return $this->responseWithSuccess($product, 201);
     }
 
     /**
@@ -53,6 +57,10 @@ class ProductController extends Controller
     private function getAllProducts()
     {
         return Product::all();
+    }
+
+    private function createProduct($data){
+        return Product::create($data)->refresh();
     }
 
     private function validateData(Request $request, string $option)
