@@ -50,6 +50,16 @@ class ProductController extends Controller
     public function update(Request $request, int $id)
     {
         $product = $this->getProductById($id);
+
+        if(!$product){
+            return $this->responseWithError('The product id does not exist', 404);
+        }
+
+        $validated = $this->validateData($request, 'update');
+
+        $productUpdated = $this->updateProduct($product, $validated);
+
+        return $this->responseWithSuccess($productUpdated);
     }
 
     /**
@@ -78,6 +88,12 @@ class ProductController extends Controller
     private function getProductById(int $id)
     {
         return Product::find($id);
+    }
+
+    private function updateProduct($product, $data){
+        $product->update($data);
+
+        return $product->refresh();
     }
 
     private function validateData(Request $request, string $option)
