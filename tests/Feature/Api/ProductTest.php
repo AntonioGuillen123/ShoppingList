@@ -54,7 +54,7 @@ class ProductTest extends TestCase
         ];
 
         $response
-            ->assertStatus(404)
+            ->assertStatus(406)
             ->assertJsonFragment($errorData);
     }
 
