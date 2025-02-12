@@ -58,4 +58,40 @@ class ProductTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
+    public function test_CheckIfUpdateAnEntryOfProductByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $data = [
+            'name' => 'Test Product Updated',
+            'description' => 'Test Description Updated'
+        ];
+
+        $response = $this->putJson(route('updateProductAPI', 1), $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($data);
+    }
+
+    public function test_CheckIfUpdateAnEntryOfProductWrongByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $data = [
+            'name' => 'Test Product Updated',
+            'description' => 'Test Description Updated'
+        ];
+
+        $response = $this->putJson(route('updateProductAPI', -1), $data);
+
+        $errorData = [
+            'message' => 'The product id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($errorData);
+    }
+
 }
