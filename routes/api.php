@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Product;
+use App\Http\Controllers\Api\ProductController;
 
-Route::get('/list', [Product::class, 'index'])->name('listProductAPI');
-Route::post('/list', [Product::class, 'store'])->name('createProductAPI');
-Route::put('/list', [Product::class, 'update'])->name('updateProductAPI');
-Route::delete('/list', [Product::class, 'destroy'])->name('deleteProductAPI');
+Route::get('/list', [ProductController::class, 'index'])->name('listProductAPI');
+Route::post('/list', [ProductController::class, 'store'])->name('createProductAPI');
+Route::put('/list', [ProductController::class, 'update'])->name('updateProductAPI');
+Route::delete('/list', [ProductController::class, 'destroy'])->name('deleteProductAPI');
