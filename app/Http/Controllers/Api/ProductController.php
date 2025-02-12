@@ -52,7 +52,7 @@ class ProductController extends Controller
     {
         $product = $this->getProductById($id);
 
-        if(!$product){
+        if (!$product) {
             return $this->responseWithError('The product id does not exist', 404);
         }
 
@@ -70,7 +70,7 @@ class ProductController extends Controller
     {
         $product = $this->getProductById($id);
 
-        if(!$product){
+        if (!$product) {
             return $this->responseWithError('The product id does not exist', 404);
         }
 
@@ -82,7 +82,8 @@ class ProductController extends Controller
     /**
      * Delete the entire shopping list.
      */
-    public function deleteList(){
+    public function deleteList()
+    {
         $this->deleteAllListFromDB();
 
         return $this->responseWithSuccess([], 204);
@@ -108,17 +109,20 @@ class ProductController extends Controller
         return Product::find($id);
     }
 
-    private function updateProduct($product, $data){
+    private function updateProduct($product, $data)
+    {
         $product->update($data);
 
         return $product->refresh();
     }
 
-    private function deleteProduct(Product $product){
+    private function deleteProduct(Product $product)
+    {
         $product->delete();
     }
 
-    private function deleteAllListFromDB(){
+    private function deleteAllListFromDB()
+    {
         DB::table('product')->truncate();
     }
 
