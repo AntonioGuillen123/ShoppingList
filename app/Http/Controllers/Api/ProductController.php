@@ -55,6 +55,22 @@ class ProductController extends Controller
         return Product::all();
     }
 
+    private function validateData(Request $request, string $option)
+    {
+        $rules = $option === 'store'
+            ? [
+                'name' => 'required|string|max:255',
+                'description' => 'string|max:255'
+            ]
+            : [
+                'name' => 'string|max:255',
+                'description' => 'string|max:255'
+            ];
+
+        return $request->validate($rules);
+    }
+
+
     private function responseWithSuccess(mixed $data, int $status = 200)
     {
         return response()->json($data, $status);
