@@ -13,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->getAllProducts();
+
+        return $this->responseWithSuccess($products);
     }
 
     /**
@@ -46,6 +48,11 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    private function getAllProducts()
+    {
+        return Product::all();
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
