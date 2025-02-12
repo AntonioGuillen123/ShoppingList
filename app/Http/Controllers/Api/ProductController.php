@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -78,6 +79,15 @@ class ProductController extends Controller
         return $this->responseWithSuccess([], 204);
     }
 
+    /**
+     * Delete the entire shopping list.
+     */
+    public function deleteList(){
+        $this->deleteAllListFromDB();
+
+        return $this->responseWithSuccess([], 204);
+    }
+
     private function getAllProducts()
     {
         return Product::all();
@@ -106,6 +116,10 @@ class ProductController extends Controller
 
     private function deleteProduct(Product $product){
         $product->delete();
+    }
+
+    private function deleteAllListFromDB(){
+        DB::table('product')->truncate();
     }
 
     private function validateData(Request $request, string $option)
