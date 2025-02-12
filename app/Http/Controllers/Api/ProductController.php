@@ -47,7 +47,10 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id) {}
+    public function update(Request $request, int $id)
+    {
+        $product = $this->getProductById($id);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -70,6 +73,11 @@ class ProductController extends Controller
     private function createProduct($data)
     {
         return Product::create($data)->refresh();
+    }
+
+    private function getProductById(int $id)
+    {
+        return Product::find($id);
     }
 
     private function validateData(Request $request, string $option)
